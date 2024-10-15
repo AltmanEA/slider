@@ -1,0 +1,23 @@
+themes:
+  - url: "10_first"
+    title: "Первый раздел"
+    slides:
+      - url: "10_a"
+        title: "1Раз"
+        slide: 6
+        quiz: 1
+      - url: "20_b"
+        title: "1Два"
+        slide: 6
+        quiz: 1
+  - url: "20_second"
+    title: "Второй раздел"
+    slides:
+      - url: "10_a"
+        title: "2Раз"
+        slide: 6
+        quiz: 1
+      - url: "20_b"
+        title: "2Два"
+        slide: 6
+        quiz: 1
