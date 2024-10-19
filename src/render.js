@@ -16,7 +16,7 @@ export function makeRender(url) {
     render.link = function (href, title, text) {
         return `<a href=${makeUrl(href)}>${text}</a>`
     }
-    render.html = function (html, block) {       
+    render.html = function (html, block) {
         let result = srcReplace(html, "<img src=")
         result = srcReplace(result, "<a href=")
         return result
@@ -24,20 +24,20 @@ export function makeRender(url) {
 
     return render
 
-    function srcReplace(source, tag){
+    function srcReplace(source, tag) {
         let last = 0
-        while(last>=0) {
+        while (last >= 0) {
             [source, last] = srcReplaceOne(source, tag, last)
         }
         return source
     }
 
-    function srcReplaceOne(source, tag, start) {        
-        const start_index = source.indexOf(tag, start)        
-        if(start_index<0)
-            return [source, -1]        
+    function srcReplaceOne(source, tag, start) {
+        const start_index = source.indexOf(tag, start)
+        if (start_index < 0)
+            return [source, -1]
         const end_index = source.indexOf("\"", start_index + tag.length + 2)
         const filename = source.slice(start_index + tag.length + 1, end_index)
-        return [source.replace(filename, makeUrl(filename)), start+start_index+1]
+        return [source.replace(filename, makeUrl(filename)), start + start_index + 1]
     }
 }

@@ -9,6 +9,4 @@ declare module "reveal.js" {
     }
 };
 declare module "reveal.js/plugin/markdown/markdown";
-// declare module "./render.js" {
-//     export function makeRender(url: string): _Renderer
-// };
+declare module "reveal.js/plugin/highlight/highlight";

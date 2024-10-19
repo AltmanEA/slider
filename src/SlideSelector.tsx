@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { CourseData } from "./CourseDataProvider";
 import Slide from "./Slide";
-import Reveal from "./Reveal";
 
 export class SlideIndex {
   constructor(public theme: number = 0, public slide: number = 0) {}

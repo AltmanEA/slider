@@ -3,9 +3,12 @@ import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Reveal from "reveal.js";
 import Markdown from "reveal.js/plugin/markdown/markdown";
+import Highlight  from "reveal.js/plugin/highlight/highlight";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/white.css";
-import { makeRender } from "./render.js";
+import "./github.css"
+// @ts-ignore
+import { makeRender } from "./render";
 
 const reveal_root = document.getElementById("reveal_root")!;
 
@@ -33,7 +36,7 @@ export default function Slide({ url }: { url: string }) {
 
     deckRef.current = new Reveal(deckDivRef.current!, {
       transition: "slide",
-      plugins: [Markdown],
+      plugins: [Markdown, Highlight],
       markdown: {
         renderer
       }

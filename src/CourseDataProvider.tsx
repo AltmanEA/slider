@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import YAML from 'yaml'
-import  SessionProvider  from "./Mock"
 import SlideSelector from "./SlideSelector"
 
 export type SlideData = {
