@@ -1,50 +1,10 @@
-# React + TypeScript + Vite
+# Программа для просмотра лекционных материалов курса
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Программа позволяет просматривать лекционные материалы (презентации).  Презентации создаются в формате Markdown и проигрываются с помощью библиотеки ```reveal.js```. 
 
-Currently, two official plugins are available:
+Лекционные материалы структурируются по темам, для каждой темы создается отдельная папка. В этих папках может быть несколько слайдов - файлов с презентацией. Иллюстрации и другие материалы должны размещаться в папке рядом с файлом, имя папки должно совпадать с именем файла без расширения.Структура материалов должна быть описана в файле ```map.yaml``` (см. пример в папке ```test-course```).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Программа считывает материалы с web-сервера.
 
-## Expanding the ESLint configuration
+При разработке курса рекомендуется установить платформу [node.js](https://nodejs.org/en). Далее нужно скопировать папку ```test-course``` (и можно переименовать),  с помощью команды ```npm install``` (в командной строке в скопированной папке) устанавливается модуль веб-сервера. После этого можно запускать веб-сервер командой ```npm start``` и перейти по адресу, который укажет эта команда.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
