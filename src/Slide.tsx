@@ -7,7 +7,7 @@ import Highlight  from "reveal.js/plugin/highlight/highlight";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/white.css";
 import "./github.css"
-// @ts-ignore
+// @ts-expect-error aaa
 import { makeRender } from "./render";
 
 const reveal_root = document.getElementById("reveal_root")!;

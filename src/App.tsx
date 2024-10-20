@@ -1,13 +1,13 @@
-import { CourseDataProvider } from "./CourseDataProvider"
+import { CourseDataProvider } from "./CourseDataProvider";
 
+type Config = {
+  contentUrl?: string;
+};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CONTENT_URL: string | undefined = (window as any).contentUrl
-
+const CONFIG: Config | undefined = (window as any).slider;
 
 function App() {
-  if(!CONTENT_URL)
-          return <h1>Не задана переменная окружения CONTENT_URL</h1>
-  return <CourseDataProvider content_url={CONTENT_URL}/>
+  return <CourseDataProvider content_url={CONFIG?.contentUrl ?? "./"} />;
 }
 
-export default App
+export default App;
