@@ -1,14 +1,12 @@
-// import Reveal from "reveal.js/dist/reveal";
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Reveal from "reveal.js";
-import Markdown from "reveal.js/plugin/markdown/markdown";
-import Highlight  from "reveal.js/plugin/highlight/highlight";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/dist/theme/white.css";
-import "./github.css"
+import "./github.css";
 // @ts-expect-error aaa
 import { makeRender } from "./render";
+import { PLUGINS } from "./config";
 
 const reveal_root = document.getElementById("reveal_root")!;
 
@@ -17,7 +15,7 @@ export default function Slide({ url }: { url: string }) {
   const deckDivRef = useRef<HTMLDivElement>(null); // reference to deck container div
   const deckRef = useRef<Reveal | null>(null); // reference to deck reveal instance
 
-  const renderer = makeRender(url)
+  const renderer = makeRender(url);
 
   function try_destroy() {
     try {
@@ -36,10 +34,10 @@ export default function Slide({ url }: { url: string }) {
 
     deckRef.current = new Reveal(deckDivRef.current!, {
       transition: "slide",
-      plugins: [Markdown, Highlight],
+      plugins: PLUGINS, //[Markdown, Highlight],
       markdown: {
-        renderer
-      }
+        renderer,
+      },
     });
 
     deckRef.current.initialize().then(() => {
@@ -50,7 +48,7 @@ export default function Slide({ url }: { url: string }) {
   }, [renderer, url]);
 
   return (
-    <div>      
+    <div>
       {createPortal(
         <div className="reveal" style={{ height: "90vh" }} ref={deckDivRef}>
           <div className="slides">
@@ -67,4 +65,3 @@ export default function Slide({ url }: { url: string }) {
     </div>
   );
 }
-
