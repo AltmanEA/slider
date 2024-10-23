@@ -1,12 +1,9 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import Reveal from "reveal.js";
-import "reveal.js/dist/reveal.css";
-import "reveal.js/dist/theme/white.css";
-import "./github.css";
-// @ts-expect-error aaa
-import { makeRender } from "./render";
-import { PLUGINS } from "./config";
+// @ts-ignore
+import { init_reveal } from "./reveal_init.js";
+
 
 const reveal_root = document.getElementById("reveal_root")!;
 
@@ -14,8 +11,6 @@ const reveal_root = document.getElementById("reveal_root")!;
 export default function Slide({ url }: { url: string }) {
   const deckDivRef = useRef<HTMLDivElement>(null); // reference to deck container div
   const deckRef = useRef<Reveal | null>(null); // reference to deck reveal instance
-
-  const renderer = makeRender(url);
 
   function try_destroy() {
     try {
@@ -31,21 +26,9 @@ export default function Slide({ url }: { url: string }) {
   useEffect(() => {
     // Prevents double initialization in strict mode
     if (deckRef.current) return try_destroy;
-
-    deckRef.current = new Reveal(deckDivRef.current!, {
-      transition: "slide",
-      plugins: PLUGINS, //[Markdown, Highlight],
-      markdown: {
-        renderer,
-      },
-    });
-
-    deckRef.current.initialize().then(() => {
-      // good place for event handlers and plugin setups
-    });
-
+    deckRef.current = init_reveal(deckDivRef.current!, url);
     return try_destroy;
-  }, [renderer, url]);
+  }, [url]);
 
   return (
     <div>
