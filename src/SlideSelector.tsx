@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { CourseData } from "./CourseDataProvider";
+import { useState } from "react";import { CourseData } from "./CourseDataProvider";
 import Slide from "./Slide";
 
 export class SlideIndex {
@@ -8,15 +7,39 @@ export class SlideIndex {
 
 export default function SlideSelector({
   courseData,
-  content_url
+  content_url,
 }: {
   courseData: CourseData;
-  content_url: string
+  content_url: string;
 }) {
   const [currentSlide, setCurrentSlide] = useState(new SlideIndex());
   const theme = courseData.themes[currentSlide.theme];
-  const slide = theme.slides[currentSlide.slide];  
-  const url = content_url + theme.url + "/" + slide.url
+  const slide = theme.slides[currentSlide.slide];
+  const url = content_url + theme.url + "/" + slide.url;
+
+  function next_slide() {
+    if (currentSlide.slide + 1 >= theme.slides.length) {
+      if (currentSlide.theme + 1 >= courseData.themes.length) {
+        return new SlideIndex(0, 0);
+      }
+      return new SlideIndex(currentSlide.theme + 1, 0);
+    }
+    return new SlideIndex(currentSlide.theme, currentSlide.slide + 1);
+  }
+
+  function prev_slide() {
+    if (currentSlide.slide == 0) {
+      if (currentSlide.theme == 0) {
+        return new SlideIndex(0, 0);
+      }
+      return new SlideIndex(
+        currentSlide.theme - 1,
+        courseData.themes[currentSlide.theme - 1].slides.length - 1
+      );
+    }
+    return new SlideIndex(currentSlide.theme, currentSlide.slide - 1);
+  }
+
   return (
     <div>
       <select
@@ -45,7 +68,9 @@ export default function SlideSelector({
           </option>
         ))}
       </select>
-      <Slide url={url}/>
+      <button onClick={() => setCurrentSlide(prev_slide())}>{"<"}</button>
+      <button onClick={() => setCurrentSlide(next_slide())}>{">"}</button>
+      <Slide url={url} />
       {/* <Reveal /> */}
     </div>
   );
