@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";import { CourseData } from "./CourseDataProvider";
+import { useEffect, useState } from "react";
+import { CourseData } from "./CourseDataProvider";
 import Slide from "./Slide";
-import { use } from "marked";
 
 export class SlideIndex {
   constructor(public theme: number = 0, public slide: number = 0) {}
