@@ -23,10 +23,19 @@ export async function init_reveal(element, url) {
     });
 
     reveal.initialize().then(() => {
-        // good place for event handlers and plugin setups
+        const urlParams = new URLSearchParams(window.location.search);
+        const indexh = parseInt(urlParams.get("indexh")??"0")??0;
+        const indexv = parseInt(urlParams.get("indexv")??"0")??0;
+        reveal.slide(indexh, indexv);
     });
 
-    window.Reveal = reveal
+    reveal.on("slidechanged", (event) => {
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set("indexh", event.indexh.toString());
+        urlParams.set("indexv", event.indexv.toString());        
+        window.history.replaceState({}, "", "?" + urlParams.toString());
+    });
+    window.Reveal = reveal    
     return reveal;
 }
 

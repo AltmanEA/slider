@@ -1,5 +1,6 @@
-import { useState } from "react";import { CourseData } from "./CourseDataProvider";
+import { useEffect, useState } from "react";import { CourseData } from "./CourseDataProvider";
 import Slide from "./Slide";
+import { use } from "marked";
 
 export class SlideIndex {
   constructor(public theme: number = 0, public slide: number = 0) {}
@@ -12,10 +13,18 @@ export default function SlideSelector({
   courseData: CourseData;
   content_url: string;
 }) {
-  const [currentSlide, setCurrentSlide] = useState(new SlideIndex());
+  const [currentSlide, setCurrentSlide] = useState(getSlideIndex());
   const theme = courseData.themes[currentSlide.theme];
   const slide = theme.slides[currentSlide.slide];
   const url = content_url + theme.url + "/" + slide.url;
+
+  function change_slide(index: SlideIndex) {
+    setCurrentSlide(index);
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("indexh", "0");
+    urlParams.set("indexv", "0");
+    window.history.replaceState({}, "", "?" + urlParams.toString());
+  }
 
   function next_slide() {
     if (currentSlide.slide + 1 >= theme.slides.length) {
@@ -40,12 +49,19 @@ export default function SlideSelector({
     return new SlideIndex(currentSlide.theme, currentSlide.slide - 1);
   }
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("theme", currentSlide.theme.toString());
+    urlParams.set("slide", currentSlide.slide.toString());
+    window.history.replaceState({}, "", "?" + urlParams.toString());    
+  })
+
   return (
     <div>
       <select
         value={currentSlide.theme}
         onChange={(e) =>
-          setCurrentSlide(new SlideIndex(parseInt(e.target.value)))
+          change_slide(new SlideIndex(parseInt(e.target.value)))
         }
       >
         {courseData.themes.map((s, i) => (
@@ -57,7 +73,7 @@ export default function SlideSelector({
       <select
         value={currentSlide.slide}
         onChange={(e) =>
-          setCurrentSlide(
+          change_slide(
             new SlideIndex(currentSlide.theme, parseInt(e.target.value))
           )
         }
@@ -68,10 +84,17 @@ export default function SlideSelector({
           </option>
         ))}
       </select>
-      <button onClick={() => setCurrentSlide(prev_slide())}>{"<"}</button>
-      <button onClick={() => setCurrentSlide(next_slide())}>{">"}</button>
+      <button onClick={() => change_slide(prev_slide())}>{"<"}</button>
+      <button onClick={() => change_slide(next_slide())}>{">"}</button>
       <Slide url={url} />
       {/* <Reveal /> */}
     </div>
   );
+}
+
+function getSlideIndex() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const theme = parseInt(urlParams.get("theme")??"0")??0;
+  const slide = parseInt(urlParams.get("slide")??"0")??0;
+  return new SlideIndex(theme, slide);
 }
